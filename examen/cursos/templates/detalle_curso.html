@@ -1,0 +1,36 @@
+<!-- cursos/templates/cursos/detalle_curso.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de {{ curso.nombre }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Detalles del curso: {{ curso.nombre }}</h1>
+        <p><strong>Descripción:</strong> {{ curso.descripcion }}</p>
+        <p><strong>Fecha de inicio:</strong> {{ curso.fecha_inicio }}</p>
+
+        <h2>Matricular Estudiante</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Matricular</button>
+        </form>
+
+        <h2>Estudiantes matriculados</h2>
+        <ul>
+            {% for estudiante in estudiantes %}
+                <li>{{ estudiante.nombre }} - {{ estudiante.email }}</li>
+            {% empty %}
+                <li>No hay estudiantes matriculados aún.</li>
+            {% endfor %}
+        </ul>
+
+        <br>
+        <a href="{% url 'listar_cursos' %}">Volver al listado de cursos</a>
+    </div>
+</body>
+</html>

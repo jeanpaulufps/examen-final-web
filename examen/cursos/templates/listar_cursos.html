@@ -1,0 +1,22 @@
+<!-- cursos/templates/cursos/listar_cursos.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Cursos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Cursos</h1>
+        <ul>
+            {% for curso in cursos %}
+                <li>
+                    <a href="{% url 'detalle_curso' curso.id %}">{{ curso.nombre }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
