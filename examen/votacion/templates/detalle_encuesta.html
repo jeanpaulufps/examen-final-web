@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Encuesta</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ encuesta.pregunta }}</h1>
+        <form method="post" action="{% url 'votar' encuesta.id %}">
+            {% csrf_token %}
+            <ul>
+                {% for opcion in encuesta.opciones.all %}
+                    <li>
+                        <input type="radio" name="opcion" value="{{ opcion.id }}" id="opcion-{{ opcion.id }}">
+                        <label for="opcion-{{ opcion.id }}">{{ opcion.texto }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit">Votar</button>
+        </form>
+
+        <h2>Resultados</h2>
+        <canvas id="grafico-resultados"></canvas>
+    </div>
+
+    <script>
+        const labels = [
+            {% for opcion in encuesta.opciones.all %}
+                "{{ opcion.texto }}",
+            {% endfor %}
+        ];
+        const data = [
+            {% for opcion in encuesta.opciones.all %}
+                {{ opcion.numero_votos }},
+            {% endfor %}
+        ];
+        const ctx = document.getElementById('grafico-resultados').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Votos',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
