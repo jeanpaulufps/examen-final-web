@@ -31,14 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'eventos_app.apps.EventosAppConfig',
+    'gestion_imagenes.apps.GestionImagenesConfig',
+    'gestion_reservas.apps.GestionReservasConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'votacion',
-    'rest_framework'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
